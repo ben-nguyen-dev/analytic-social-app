@@ -14,38 +14,44 @@ export default function SignIn() {
         shadow="md"
       >
         <CardBody>
-          <h1 className="font-weight mb-6 text-xl">Sign in to your account</h1>
+          <h1 className="font-weight mb-6 text-xl">Create an account</h1>
 
           <form action="">
             <Input
               className="mb-4"
               type="email"
               variant="faded"
-              label="Email"
+              label="Your email"
               placeholder="name@company.com"
             />
             <Input
-              className="mb-6"
+              className="mb-4"
               type="password"
               variant="faded"
               label="Password"
               placeholder="••••••••"
             />
-            <div className="flex justify-between mb-6">
-              <Checkbox>
-                <p>Remember me</p>
-              </Checkbox>
-              <Link href={'/sign-in'}>Forgot password?</Link>
-            </div>
+            <Input
+              className="mb-4"
+              type="password"
+              variant="faded"
+              label="Confirm password"
+              placeholder="••••••••"
+            />
+            <Checkbox className="mb-6">
+              <p>
+                I accept the <Link href={'/sign-up'}>Terms and Conditions</Link>
+              </p>
+            </Checkbox>
             <Button className="mb-4 w-full" color="primary" variant="shadow">
-              Sign in
+              Create an account
             </Button>
           </form>
 
           <p className="text-sm">
-            Don’t have an account yet?{' '}
-            <Link href="/sign-up" className="font-medium hover:underline">
-              Sign up
+            Already have an account?{' '}
+            <Link href="/sign-in" className="font-medium hover:underline">
+              Login here
             </Link>
           </p>
         </CardBody>
