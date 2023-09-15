@@ -1,7 +1,8 @@
-import mongoose from 'mongoose'
+import { model, models, Schema } from 'mongoose'
 import bcrypt from 'bcryptjs'
+import { IUser } from '@/types/user'
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema<IUser>({
   email: {
     type: String,
     required: true,
@@ -19,7 +20,7 @@ const userSchema = new mongoose.Schema({
   },
 })
 
-userSchema.pre('save', async function (next) {
+userSchema.pre<IUser>('save', async function (next) {
   const user = this
 
   if (!user.isModified('password')) return next()
@@ -29,4 +30,4 @@ userSchema.pre('save', async function (next) {
   next()
 })
 
-export default mongoose.models.User || mongoose.model('User', userSchema)
+export default models.User || model<IUser>('User', userSchema)

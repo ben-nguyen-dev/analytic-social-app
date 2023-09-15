@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import User from '@/models/User'
 import { STATUS_CODES } from '@/config/constants'
-import connectMongoDB from '@/database/mongodb'
+import connectMongoDB from '@/libs/mongodb'
 
 /**
  * Handles a POST request.
@@ -13,8 +13,6 @@ import connectMongoDB from '@/database/mongodb'
 export async function POST(request: Request) {
   const body = await request.json()
   const { email, password, firstName, lastName } = body
-
-  console.log('body 😋', { body }, '')
 
   await connectMongoDB()
 
