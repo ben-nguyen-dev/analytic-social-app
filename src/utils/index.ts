@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie'
 import { KEY_COOKIES } from '@/config/constants'
-import { AxiosError } from 'axios'
 
 export const getAccessToken = () => {
   return Cookies.get(KEY_COOKIES.ACCESS_TOKEN)

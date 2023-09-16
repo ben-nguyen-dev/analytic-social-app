@@ -77,9 +77,9 @@ export default function SignIn() {
   }
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center">
+    <div className="flex h-screen w-screen items-center justify-center">
       <Card
-        className="bg-background/60 dark:bg-default-100/50 h-fit w-96"
+        className="h-fit w-96 bg-background/60 dark:bg-default-100/50"
         isBlurred
         shadow="md"
       >
@@ -114,9 +114,9 @@ export default function SignIn() {
                   onClick={toggleVisibility}
                 >
                   {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                    <EyeSlashFilledIcon className="pointer-events-none text-2xl text-default-400" />
                   ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                    <EyeFilledIcon className="pointer-events-none text-2xl text-default-400" />
                   )}
                 </button>
               }
@@ -140,9 +140,9 @@ export default function SignIn() {
                   onClick={toggleVisibility}
                 >
                   {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                    <EyeSlashFilledIcon className="pointer-events-none text-2xl text-default-400" />
                   ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                    <EyeFilledIcon className="pointer-events-none text-2xl text-default-400" />
                   )}
                 </button>
               }

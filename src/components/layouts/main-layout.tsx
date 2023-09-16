@@ -4,12 +4,12 @@ import { Link } from '@nextui-org/link'
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="relative flex flex-col h-screen">
+    <div className="relative flex h-screen flex-col">
       <Navbar />
-      <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+      <main className="container mx-auto max-w-7xl flex-grow px-6 pt-16">
         {children}
       </main>
-      <footer className="w-full flex items-center justify-center py-3">
+      <footer className="flex w-full items-center justify-center py-3">
         <Link
           isExternal
           className="flex items-center gap-1 text-current"

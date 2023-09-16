@@ -3,8 +3,6 @@ import User from '@/models/User'
 import { STATUS_CODES } from '@/config/constants'
 import connectMongoDB from '@/libs/mongodb'
 import bcrypt from 'bcryptjs'
-import user from '@/models/User'
-import jwt from 'jsonwebtoken'
 import { generateAccessToken, generateRefreshToken } from '@/libs/jwt'
 import { IUser } from '@/types'
 

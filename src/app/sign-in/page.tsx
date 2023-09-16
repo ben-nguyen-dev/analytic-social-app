@@ -7,9 +7,9 @@ import { Link } from '@nextui-org/link'
 
 export default function SignIn() {
   return (
-    <div className="h-screen w-screen flex justify-center items-center">
+    <div className="flex h-screen w-screen items-center justify-center">
       <Card
-        className="bg-background/60 dark:bg-default-100/50 h-fit w-2/6"
+        className="h-fit w-2/6 bg-background/60 dark:bg-default-100/50"
         isBlurred
         shadow="md"
       >
@@ -31,7 +31,7 @@ export default function SignIn() {
               label="Password"
               placeholder="••••••••"
             />
-            <div className="flex justify-between mb-6">
+            <div className="mb-6 flex justify-between">
               <Checkbox>
                 <p>Remember me</p>
               </Checkbox>
