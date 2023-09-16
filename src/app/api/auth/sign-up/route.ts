@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: 'Email is already registered' },
+        { message: 'Email is already registered' },
         { status: STATUS_CODES.BAD_REQUEST }
       )
     }
@@ -34,8 +34,9 @@ export async function POST(request: Request) {
       { status: STATUS_CODES.CREATED }
     )
   } catch (error) {
+    console.log('error 😋', { error }, '')
     return NextResponse.json(
-      { error: 'Server error' },
+      { message: 'Server error' },
       { status: STATUS_CODES.INTERNAL_SERVER_ERROR }
     )
   }

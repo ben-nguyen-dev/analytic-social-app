@@ -4,4 +4,6 @@ export interface IUser extends Document {
   password: string
   firstName?: string
   lastName?: string
+  createdAt: Date
+  updatedAt: Date
 }

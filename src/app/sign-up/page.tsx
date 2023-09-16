@@ -1,49 +1,167 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import { Card, CardBody } from '@nextui-org/card'
 import { Button } from '@nextui-org/button'
 import { Input } from '@nextui-org/input'
 import { Checkbox } from '@nextui-org/checkbox'
 import { Link } from '@nextui-org/link'
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { EyeFilledIcon, EyeSlashFilledIcon } from '@/icons'
+import { useMutation } from '@tanstack/react-query'
+import authService, { ISignUpBody } from '@/libs/axios/auth'
+import toast from 'react-hot-toast'
+import { getMessageError } from '@/utils'
+import { useRouter } from 'next/navigation'
+
+interface IFormValues {
+  email: string
+  password: string
+  confirmPassword: string
+}
+
+const schema = yup
+  .object({
+    email: yup.string().email('Invalid email').required('Email is required'),
+    password: yup
+      .string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], 'Your passwords do not match.')
+      .required('Confirm password is required'),
+  })
+  .required()
 
 export default function SignIn() {
+  const route = useRouter()
+
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const { mutate: signUp, isLoading } = useMutation({
+    mutationFn: async (body: ISignUpBody) => {
+      return await authService.singUp(body)
+    },
+    onSuccess: (data: any) => {
+      toast.success(data.message)
+      route.push('/sign-in')
+    },
+    onError: (error: any) => {
+      toast.error(getMessageError(error))
+    },
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<IFormValues>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+    resolver: yupResolver(schema),
+  })
+
+  const toggleVisibility = () => setIsVisible(!isVisible)
+
+  const onSubmit = (data: IFormValues) => {
+    const body = {
+      email: data.email,
+      password: data.password,
+    }
+    signUp(body)
+  }
+
   return (
     <div className="h-screen w-screen flex justify-center items-center">
       <Card
-        className="bg-background/60 dark:bg-default-100/50 h-fit w-2/6"
+        className="bg-background/60 dark:bg-default-100/50 h-fit w-96"
         isBlurred
         shadow="md"
       >
         <CardBody>
           <h1 className="font-weight mb-6 text-xl">Create an account</h1>
 
-          <form action="">
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Input
-              className="mb-4"
+              isClearable
               type="email"
-              variant="faded"
-              label="Your email"
-              placeholder="name@company.com"
+              label="Email"
+              variant="bordered"
+              className="mb-4"
+              placeholder="email"
+              maxLength={250}
+              validationState={errors.email?.message ? 'invalid' : 'valid'}
+              errorMessage={errors.email?.message}
+              {...register('email')}
             />
             <Input
               className="mb-4"
-              type="password"
-              variant="faded"
+              type={isVisible ? 'text' : 'password'}
+              variant="bordered"
               label="Password"
-              placeholder="••••••••"
+              placeholder="password"
+              maxLength={250}
+              validationState={errors.password?.message ? 'invalid' : 'valid'}
+              endContent={
+                <button
+                  className="focus:outline-none"
+                  type="button"
+                  onClick={toggleVisibility}
+                >
+                  {isVisible ? (
+                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                  ) : (
+                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                  )}
+                </button>
+              }
+              errorMessage={errors.password?.message}
+              {...register('password')}
             />
             <Input
               className="mb-4"
-              type="password"
-              variant="faded"
+              type={isVisible ? 'text' : 'password'}
+              variant="bordered"
               label="Confirm password"
-              placeholder="••••••••"
+              placeholder="password"
+              maxLength={250}
+              validationState={
+                errors.confirmPassword?.message ? 'invalid' : 'valid'
+              }
+              endContent={
+                <button
+                  className="focus:outline-none"
+                  type="button"
+                  onClick={toggleVisibility}
+                >
+                  {isVisible ? (
+                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                  ) : (
+                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                  )}
+                </button>
+              }
+              errorMessage={errors.confirmPassword?.message}
+              {...register('confirmPassword')}
             />
             <Checkbox className="mb-6">
               <p>
                 I accept the <Link href={'/sign-up'}>Terms and Conditions</Link>
               </p>
             </Checkbox>
-            <Button className="mb-4 w-full" color="primary" variant="shadow">
+            <Button
+              className="mb-4 w-full"
+              color="primary"
+              variant="shadow"
+              type="submit"
+              isDisabled={!isValid}
+              isLoading={isLoading}
+            >
               Create an account
             </Button>
           </form>

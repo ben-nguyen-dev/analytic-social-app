@@ -12,3 +12,8 @@ export const STATUS_CODES = {
   SERVICE_UNAVAILABLE: 503,
   GATEWAY_TIMEOUT: 504,
 }
+
+export const KEY_COOKIES = {
+  ACCESS_TOKEN: 'accessToken',
+  REFRESH_TOKEN: 'refreshToken',
+}
