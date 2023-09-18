@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import User from '@/models/User'
 import { STATUS_CODES } from '@/config/constants'
 import connectMongoDB from '@/libs/mongodb'
+import { IResponseError } from '@/types'
 
 /**
  * Handles a POST request.
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
     const existingUser = await User.findOne({ email })
 
     if (existingUser) {
-      return NextResponse.json(
+      return NextResponse.json<IResponseError>(
         { message: 'Email is already registered' },
         { status: STATUS_CODES.BAD_REQUEST }
       )
@@ -29,13 +30,12 @@ export async function POST(request: Request) {
     const newUser = new User({ email, password, firstName, lastName })
     await newUser.save()
 
-    return NextResponse.json(
+    return NextResponse.json<IResponseError>(
       { message: 'User registered successfully' },
       { status: STATUS_CODES.CREATED }
     )
   } catch (error) {
-    console.log('error 😋', { error }, '')
-    return NextResponse.json(
+    return NextResponse.json<IResponseError>(
       { message: 'Server error' },
       { status: STATUS_CODES.INTERNAL_SERVER_ERROR }
     )

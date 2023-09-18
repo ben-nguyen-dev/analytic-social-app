@@ -13,6 +13,11 @@ export const setAccessToken = (token: string) => {
   return Cookies.set(KEY_COOKIES.ACCESS_TOKEN, token)
 }
 
+export const setRefreshToken = (token: string) => {
+  if (!token) return
+  return Cookies.set(KEY_COOKIES.REFRESH_TOKEN, token)
+}
+
 export const getMessageError = (error: any) => {
   if (error.response?.data?.message) {
     return error.response.data.message

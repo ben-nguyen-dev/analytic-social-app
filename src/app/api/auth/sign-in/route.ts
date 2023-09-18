@@ -4,7 +4,7 @@ import { STATUS_CODES } from '@/config/constants'
 import connectMongoDB from '@/libs/mongodb'
 import bcrypt from 'bcryptjs'
 import { generateAccessToken, generateRefreshToken } from '@/libs/jwt'
-import { IUser } from '@/types'
+import { IResponseError, IUser } from '@/types'
 
 /**
  * Handles a POST request.
@@ -23,8 +23,8 @@ export async function POST(request: Request) {
     const existingUser: IUser | null = await User.findOne({ email })
 
     if (!existingUser) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
+      return NextResponse.json<IResponseError>(
+        { message: 'Invalid credentials' },
         { status: STATUS_CODES.UNAUTHORIZED }
       )
     }
@@ -35,8 +35,8 @@ export async function POST(request: Request) {
       existingUser.password
     )
     if (!isPasswordValid) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
+      return NextResponse.json<IResponseError>(
+        { message: 'Invalid credentials' },
         { status: STATUS_CODES.UNAUTHORIZED }
       )
     }
